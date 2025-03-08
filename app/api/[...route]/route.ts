@@ -10,11 +10,11 @@ export const runtime = "edge";
 // appをエクスポートして、テストでアクセスできるようにする
 export const app = new Hono().basePath("/api");
 
-// TODO: OASを生成したいがまだ途中
-// const querySchema = z.object({
-//   name: z.string(),
-// });
+const querySchema = z.object({
+  name: z.string().optional(),
+});
 
+// TODO: OASを生成したいがまだ途中
 // app.get(
 //   "/openapi",
 //   openAPISpecs(app, {
