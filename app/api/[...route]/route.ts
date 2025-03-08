@@ -11,4 +11,25 @@ app.get('/hello', (c) => {
   })
 })
 
+app.get('/test/form', (c) => {
+  return c.json([
+    {
+      formKey: 'testForm1',
+      formType: 'text',
+    },
+    {
+      formKey: 'testForm2',
+      formType: 'combobox',
+    },
+  ])
+})
+
+app.post('/test/form', (c) => {
+  return c.json({
+    message: 'Form submitted successfully!'
+  })
+})
+
+
 export const GET = handle(app)
+export const POST = handle(app)
