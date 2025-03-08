@@ -1,9 +1,11 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
+import testFormRouter from './routes/test-form'
 
 export const runtime = 'edge'
 
-const app = new Hono().basePath('/api')
+// appをエクスポートして、テストでアクセスできるようにする
+export const app = new Hono().basePath('/api')
 
 app.get('/hello', (c) => {
   return c.json({
@@ -11,25 +13,8 @@ app.get('/hello', (c) => {
   })
 })
 
-app.get('/test/form', (c) => {
-  return c.json([
-    {
-      formKey: 'testForm1',
-      formType: 'text',
-    },
-    {
-      formKey: 'testForm2',
-      formType: 'combobox',
-    },
-  ])
-})
-
-app.post('/test/form', (c) => {
-  return c.json({
-    message: 'Form submitted successfully!'
-  })
-})
-
+// /test/form エンドポイントをマウント
+app.route('/test/form', testFormRouter)
 
 export const GET = handle(app)
 export const POST = handle(app)

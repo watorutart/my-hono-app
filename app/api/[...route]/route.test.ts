@@ -1,48 +1,24 @@
-import { GET, POST } from './route';
+import { app } from './route'
 
-// Next.jsのRequest用のモック作成
-const createMockRequest = (path: string, method = 'GET', body?: any) => {
-  const url = new URL(`https://example.com${path}`);
-  return new Request(url, {
-    method,
-    body: body ? JSON.stringify(body) : undefined,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-};
+// 各APIエンドポイントの詳細テストは個別のテストファイルに移動しています
+// routes/test-form.test.ts などを参照してください
 
 describe('API Routes', () => {
-  it('should return correct message for /api/hello route', async () => {
-    const req = createMockRequest('/api/hello');
-    const res = await GET(req);
-    expect(res.status).toBe(200);
-    const data = await res.json();
-    expect(data).toEqual({ message: 'Hello from Hono!' });
-  });
+  describe('GET /api/hello', () => {
+    it('should return hello message', async () => {
+      const res = await app.request('/api/hello')
+      expect(res.status).toBe(200)
+      const data = await res.json()
+      expect(data).toEqual({ message: 'Hello from Hono!' })
+    })
+  })
 
-  it('should return form data for /api/test/form GET request', async () => {
-    const req = createMockRequest('/api/test/form');
-    const res = await GET(req);
-    expect(res.status).toBe(200);
-    const data = await res.json();
-    expect(data).toEqual([
-      {
-        formKey: 'testForm1',
-        formType: 'text',
-      },
-      {
-        formKey: 'testForm2',
-        formType: 'combobox',
-      }
-    ]);
-  });
-
-  it('should handle form submission for /api/test/form POST request', async () => {
-    const req = createMockRequest('/api/test/form', 'POST');
-    const res = await POST(req);
-    expect(res.status).toBe(200);
-    const data = await res.json();
-    expect(data).toEqual({ message: 'Form submitted successfully!' });
-  });
-});
+  describe('API Routing', () => {
+    it('should correctly route to mounted endpoints', async () => {
+      // 統合テスト - 適切なエンドポイントにルーティングされるか確認
+      const res = await app.request('/api/test/form')
+      expect(res.status).toBe(200)
+      // 詳細テストはroutes/test-form.test.tsに移動済み
+    })
+  })
+})
