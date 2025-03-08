@@ -6,10 +6,10 @@ import { app } from './route'
 describe('API Routes', () => {
   describe('GET /api/hello', () => {
     it('should return hello message', async () => {
-      const res = await app.request('/api/hello')
+      const res = await app.request('/api/hello?name=test');
       expect(res.status).toBe(200)
       const data = await res.json()
-      expect(data).toEqual({ message: 'Hello from Hono!' })
+      expect(data).toEqual({ message: 'Hello! test' })
     })
   })
 

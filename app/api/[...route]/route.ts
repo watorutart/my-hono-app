@@ -1,15 +1,19 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
 import testFormRouter from './routes/test-form'
+import {zValidator} from '@hono/zod-validator'
+import {z} from 'zod';
 
 export const runtime = 'edge'
 
 // appをエクスポートして、テストでアクセスできるようにする
 export const app = new Hono().basePath('/api')
 
-app.get('/hello', (c) => {
+app.get('/hello', zValidator('query', z.object({ name: z.string() })), (c) => {
+  const { name } = c.req.valid('query');
+
   return c.json({
-    message: 'Hello from Hono!'
+    message: `Hello! ${name}`
   })
 })
 
