@@ -1,5 +1,20 @@
 {
   "name": "my-hono-app",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts",
+      "require": "./index.ts"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "import": "./src/types.ts",
+      "require": "./src/types.ts"
+    }
+  },
   "scripts": {
     "dev": "next dev -p 3003",
     "build": "next build",
